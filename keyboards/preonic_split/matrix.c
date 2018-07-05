@@ -127,7 +127,7 @@ void matrix_init(void)
     unselect_rows();
     init_cols();
 
-    TX_RX_LED_INIT;
+    /* TX_RX_LED_INIT; */
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
@@ -161,7 +161,7 @@ uint8_t _matrix_scan(void)
 
 #elif (DIODE_DIRECTION == ROW2COL)
     // Set col, read rows
-    for (uint8_t current_col = 0; current_col < MATRIX_COLS; current_col++) {
+    fo
 #       if (DEBOUNCING_DELAY > 0)
             bool matrix_changed = read_rows_on_col(matrix_debouncing+offset, current_col);
             if (matrix_changed) {
@@ -258,7 +258,7 @@ uint8_t matrix_scan(void)
     if( serial_transaction() ) {
 #endif
         // turn on the indicator led when halves are disconnected
-        TXLED1;
+        /* TXLED1; */
 
         error_count++;
 
@@ -271,7 +271,7 @@ uint8_t matrix_scan(void)
         }
     } else {
         // turn off the indicator led on no error
-        TXLED0;
+        /* TXLED0; */
         error_count = 0;
     }
     matrix_scan_quantum();
