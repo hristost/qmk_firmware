@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID      0x1157
 #define DEVICE_VER      0x0100
 #define MANUFACTURER    HS
-#define PRODUCT         Clacky
+#define PRODUCT         Merp
 #define DESCRIPTION     Split 5x12 ortholinear keyboard
 
 /* key matrix size */
