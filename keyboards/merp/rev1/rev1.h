@@ -5,6 +5,7 @@
 
 //void promicro_bootloader_jmp(bool program);
 #include "quantum.h"
+#include "tlc59711.h"
 
 
 #ifdef USE_I2C

@@ -9,6 +9,7 @@
 #include "keyboard.h"
 #include "config.h"
 #include "timer.h"
+#include "tlc59711.h"
 
 #ifdef USE_I2C
 #  include "i2c.h"
@@ -57,6 +58,7 @@ bool has_usb(void) {
 
 void split_keyboard_setup(void) {
    setup_handedness();
+   tlc59711_init();
 
    if (has_usb()) {
       keyboard_master_setup();

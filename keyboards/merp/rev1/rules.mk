@@ -1,1 +1,2 @@
 BACKLIGHT_ENABLE = no
+SRC += tlc59711.c
