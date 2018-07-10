@@ -23,7 +23,21 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "matrix.h"
+#include "quantum.h"
+#include <stdbool.h>
 
+
+/// Initialize the SPI interface needed for the LED driver
 void tlc59711_init(void);
+/// Enable the refresh interrupt
+void tlc59711_enable_interrupt(void);
+/// Disable the refresh interrupt
+void tlc59711_disable_interrupt(void);
+/// Tell the LED driver to transmit data if needed
+void tlc59711_task(matrix_row_t* matrix);
+void tlc59711_write(uint8_t* data);
+
+bool tlc59711_process_matrix(uint16_t keycode, keyrecord_t *record);
 
 #endif /* LIGHT_TLC59711_H_ */

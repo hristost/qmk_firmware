@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "pro_micro.h"
 #include "config.h"
 #include "timer.h"
+#include "tlc59711.h"
 
 #ifdef USE_I2C
 #  include "i2c.h"
@@ -250,6 +251,7 @@ int serial_transaction(void) {
 
 uint8_t matrix_scan(void)
 {
+    tlc59711_task(matrix);
     uint8_t ret = _matrix_scan();
 
 #ifdef USE_I2C
@@ -279,9 +281,10 @@ uint8_t matrix_scan(void)
 }
 
 void matrix_slave_scan(void) {
+    int offset = (isLeftHand) ? 0 : ROWS_PER_HAND;
+    tlc59711_task(matrix);
     _matrix_scan();
 
-    int offset = (isLeftHand) ? 0 : ROWS_PER_HAND;
 
 #ifdef USE_I2C
     for (int i = 0; i < ROWS_PER_HAND; ++i) {
