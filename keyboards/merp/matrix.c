@@ -303,10 +303,23 @@ bool matrix_is_modified(void)
     return true;
 }
 
+/* inline */
+matrix_row_t* matrix_get(void)
+{
+    return matrix;
+}
 inline
 bool matrix_is_on(uint8_t row, uint8_t col)
 {
-    return (matrix[row] & ((matrix_row_t)1<<col));
+    int offset = isLeftHand ? 0 : (ROWS_PER_HAND);
+    /* return true; */
+    return ((matrix+offset)[row] & ((matrix_row_t)1<<col));
+}
+bool matrix_was_on(matrix_row_t* matrix, uint8_t row, uint8_t col)
+{
+    int offset = isLeftHand ? 0 : (ROWS_PER_HAND);
+    /* return true; */
+    return ((matrix+offset)[row] & ((matrix_row_t)1<<col));
 }
 
 inline

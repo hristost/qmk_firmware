@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <avr/power.h>
+#include <string.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/eeprom.h>
@@ -18,6 +19,10 @@
 #endif
 
 volatile bool isLeftHand = true;
+extern matrix_row_t* matrix_get(void);
+extern bool matrix_was_on(matrix_row_t* matrix, uint8_t row, uint8_t col);
+
+static matrix_row_t matrix_old[MATRIX_ROWS];
 
 static void setup_handedness(void) {
   #ifdef EE_HANDS
@@ -72,7 +77,25 @@ void keyboard_slave_loop(void) {
    matrix_init();
 
    while (1) {
-      matrix_slave_scan();
+       // Keep a copy of the old matrix so we can see what has changed as qmk
+       // is not actually running because of the infinite loop
+       memcpy(matrix_old, matrix_get(), MATRIX_ROWS*sizeof(matrix_row_t));
+       matrix_slave_scan();
+       for(int row=0; row<MATRIX_ROWS; row++) 
+           for(int column=0; column<MATRIX_COLS; column++) {
+               bool isOn = matrix_is_on(row, column);
+               bool wasOn = matrix_was_on(matrix_old, row, column);
+               if (isOn!=wasOn) {
+                   keyrecord_t record;
+                   record.event.pressed = isOn;
+                   record.event.key.row = row;
+                   record.event.key.col = column;
+                   tlc59711_process_matrix(0, &record);
+
+               }
+
+           }
+      /* matrix_was_on(0, 0); */
    }
 }
 
