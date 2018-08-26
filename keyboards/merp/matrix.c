@@ -251,7 +251,7 @@ int serial_transaction(void) {
 
 uint8_t matrix_scan(void)
 {
-    tlc59711_task(matrix);
+    /* tlc59711_task(matrix); */
     uint8_t ret = _matrix_scan();
 
 #ifdef USE_I2C
@@ -282,7 +282,7 @@ uint8_t matrix_scan(void)
 
 void matrix_slave_scan(void) {
     int offset = (isLeftHand) ? 0 : ROWS_PER_HAND;
-    tlc59711_task(matrix);
+    /* tlc59711_task(matrix); */
     _matrix_scan();
 
 

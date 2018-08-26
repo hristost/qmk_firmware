@@ -55,7 +55,7 @@ static void keyboard_slave_setup(void) {
 }
 
 bool has_usb(void) {
-   return false;
+   return true;
    USBCON |= (1 << OTGPADE); //enables VBUS pad
    _delay_us(5);
    return (USBSTA & (1<<VBUS));  //checks state of VBUS
@@ -63,7 +63,7 @@ bool has_usb(void) {
 
 void split_keyboard_setup(void) {
    setup_handedness();
-   tlc59711_init();
+   /* tlc59711_init(); */
 
    if (has_usb()) {
       keyboard_master_setup();
