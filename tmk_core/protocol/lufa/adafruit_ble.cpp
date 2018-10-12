@@ -15,7 +15,7 @@
 // You may define them to something else in your config.h
 // if yours is wired up differently.
 #ifndef AdafruitBleResetPin
-#define AdafruitBleResetPin D4
+#define AdafruitBleResetPin B5
 #endif
 
 #ifndef AdafruitBleCSPin
@@ -23,7 +23,7 @@
 #endif
 
 #ifndef AdafruitBleIRQPin
-#define AdafruitBleIRQPin   E6
+#define AdafruitBleIRQPin   B6
 #endif
 
 

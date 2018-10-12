@@ -251,7 +251,7 @@ int serial_transaction(void) {
 
 uint8_t matrix_scan(void)
 {
-    /* tlc59711_task(matrix); */
+    tlc59711_task(matrix);
     uint8_t ret = _matrix_scan();
 
 #ifdef USE_I2C

@@ -63,7 +63,7 @@ void tlc59711_init() {
     digitalWrite(B7, PinLevelLow);
 
     // Initialize the SPI driver before first use
-    SPI_Init(SPI_SPEED_FCPU_DIV_8 | SPI_ORDER_MSB_FIRST | SPI_SCK_LEAD_FALLING |
+    SPI_Init(SPI_SPEED_FCPU_DIV_128 | SPI_ORDER_MSB_FIRST | SPI_SCK_LEAD_FALLING |
             SPI_SAMPLE_TRAILING | SPI_MODE_MASTER);
 
     tlc59711_enable_interrupt();
@@ -100,7 +100,7 @@ void tlc59711_write(uint8_t* data) {
     command <<= 7;
     command |= 0x7F;
 
-    //cli();
+    cli();
     digitalWrite(B7, PinLevelHigh);
     for (uint8_t n=0; n<3; n++) {
         SPI_SendByte(command >> 24);
@@ -116,7 +116,7 @@ void tlc59711_write(uint8_t* data) {
         }
     }
     digitalWrite(B7, PinLevelLow);
-    //sei();
+    sei();
 }
 uint8_t colour = 0;
 void updateLEDMatrix(matrix_row_t* matrix) {

@@ -38,6 +38,7 @@ static void setup_handedness(void) {
 }
 
 static void keyboard_master_setup(void) {
+    return;
 #ifdef USE_I2C
     i2c_master_init();
 #else
@@ -63,7 +64,7 @@ bool has_usb(void) {
 
 void split_keyboard_setup(void) {
    setup_handedness();
-   /* tlc59711_init(); */
+   tlc59711_init();
 
    if (has_usb()) {
       keyboard_master_setup();
