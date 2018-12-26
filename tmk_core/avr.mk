@@ -192,6 +192,15 @@ avrdude: $(BUILD_DIR)/$(TARGET).hex check-size cpfirmware
 		avrdude -p $(MCU) -c avr109 -P $$USB -U flash:w:$(BUILD_DIR)/$(TARGET).hex; \
 	fi
 
+usbasp: $(BUILD_DIR)/$(TARGET).hex check-size cpfirmware
+	if $(GREP) -q -s Microsoft /proc/version; then \
+		echo 'ERROR: AVR flashing cannot be automated within the Windows Subsystem for Linux (WSL) currently. Instead, take the .hex file generated and flash it using AVRDUDE, AVRDUDESS, or XLoader.'; \
+	else \
+		echo "Uploading $(BUILD_DIR)/$(TARGET).hex"; \
+		sleep 1; \
+		avrdude -p $(MCU) -cusbasp -U flash:w:$(BUILD_DIR)/$(TARGET).hex; \
+	fi
+
 # Convert hex to bin.
 bin: $(BUILD_DIR)/$(TARGET).hex
 	$(OBJCOPY) -Iihex -Obinary $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
