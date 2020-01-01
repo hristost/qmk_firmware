@@ -2,6 +2,8 @@
 #include "tlc59711.h"
 #include <print.h>
 
+#define A(x) LALT(x)
+#define WW(x) LALT(LSFT(x))
 
 extern keymap_config_t keymap_config;
 
@@ -10,6 +12,7 @@ enum preonic_layers {
   _QWERTY,
   _COLEMAK,
   _LOWER,
+  _WINDOW,
   _RAISE,
   _ADJUST
 };
@@ -19,6 +22,7 @@ enum preonic_keycodes {
   QWERTY,
   COLEMAK,
   LOWER,
+  WINDOW,
   RAISE,
   BACKLIT
 };
@@ -86,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,        KC_QUOT, KC_COMM, KC_DOT,  KC_P,          KC_Y,               KC_F,                 KC_G,             KC_C,    KC_R,    KC_L,  KC_SLSH, \
   CTL_T(KC_ESC), KC_A,    KC_O,    KC_E,    KC_U,          KC_I,               KC_D,                 KC_H,             KC_T,    KC_N,    KC_S,  KC_ENT,  \
   KC_LSFT,       KC_SCLN, KC_Q,    KC_J,    KC_K,          KC_X,               KC_B,                 KC_M,             KC_W,    KC_V,    KC_Z,  KC_RSFT, \
-  BACKLIT,       KC_LCTL, KC_LALT, KC_LGUI, CTL_T(KC_ESC), LT(_LOWER, KC_TAB), LT(_RAISE, KC_ENTER),             SFT_T(KC_SPC),    KC_LEFT, KC_DOWN, KC_UP, RAISE    \
+  MO(_WINDOW),   KC_LCTL, KC_LALT, KC_LGUI, CTL_T(KC_ESC), LT(_LOWER, KC_TAB), LT(_RAISE, KC_ENTER), SFT_T(KC_SPC),    KC_NUHS, KC_DOWN, KC_RGUI, RAISE    \
 ),
 
 /* Lower
@@ -108,6 +112,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_UNDS, KC_EQL,  KC_LBRC, KC_RBRC, KC_F6,   _______, _______, _______, _______, _______, _______, \
   _______, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, KC_F12,  _______, _______, _______, _______, _______, _______, \
   RESET,   _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
+),
+[_WINDOW] = LAYOUT( \
+  _______, WW(KC_1), WW(KC_2), WW(KC_3), WW(KC_4), WW(KC_5), WW(KC_6),    WW(KC_7),   WW(KC_8), WW(KC_9),    WW(KC_0),   _______,    \
+  _______, WW(KC_Q), WW(KC_W), WW(KC_E), WW(KC_R), WW(KC_T), WW(KC_LBRC), WW(KC_Y),   WW(KC_U), WW(KC_I),    WW(KC_O),   WW(KC_P),    \
+  _______, WW(KC_A), WW(KC_S), WW(KC_D), WW(KC_F), WW(KC_G), WW(KC_RBRC), WW(KC_H),   WW(KC_J), WW(KC_K),    WW(KC_L),   WW(KC_ENT),  \
+  _______, WW(KC_Z), WW(KC_X), WW(KC_C), WW(KC_V), WW(KC_B), WW(KC_SCLN), WW(KC_N),   WW(KC_M), WW(KC_COMM), WW(KC_DOT), WW(KC_SLSH), \
+  _______, _______,  _______,  _______,  _______,  _______,  KC_LCTL,     WW(KC_SPC), _______,  _______,     _______,    _______  \
 ),
 
 /* Raise
