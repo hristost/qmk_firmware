@@ -34,6 +34,11 @@ void tlc59711_init(void);
 void tlc59711_enable_interrupt(void);
 /// Disable the refresh interrupt
 void tlc59711_disable_interrupt(void);
+/// Whether backlight is enabled
+bool tlc59711_is_enabled(void);
+
+bool tlc59711_toggle_enabled(void);
+void tlc59711_set_enabled(bool enabled);
 /// Tell the LED driver to transmit data if needed
 void tlc59711_task(matrix_row_t* matrix);
 void tlc59711_write(uint8_t* data);

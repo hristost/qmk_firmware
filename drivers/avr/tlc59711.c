@@ -41,6 +41,7 @@ void updateLEDMatrix(matrix_row_t* matrix);
 #define TLC59711_NUM_COLUMNS 6
 #define TLC59711_NUM_ROWS    5
 
+bool ledEnabled = 1;
 uint8_t ledState[TLC59711_NUM_ROWS][TLC59711_NUM_COLUMNS];
 uint8_t ledStateOld[TLC59711_NUM_ROWS][TLC59711_NUM_COLUMNS];
 uint8_t ledStateRaw[TLC59711_NUM_DRIVERS*12];
@@ -137,7 +138,7 @@ void updateLEDMatrix(matrix_row_t* matrix) {
 
 }
 void tlc59711_task(matrix_row_t* matrix) {
-    if(!shouldRefresh) return;
+    if(!ledEnabled || !shouldRefresh) return;
     shouldRefresh = false;
     updateLEDMatrix(matrix);
     tlc59711_write(ledStateRaw);
@@ -162,4 +163,22 @@ bool tlc59711_process_matrix(uint16_t keycode, keyrecord_t *record) {
         ledState[record->event.key.row][record->event.key.col] = 100;
     }
 	return true;
+}
+
+/// Whether backlight is enabled
+bool tlc59711_is_enabled() {
+    return ledEnabled;
+}
+
+bool tlc59711_toggle_enabled() {
+    bool enabled = !ledEnabled;
+    tlc59711_set_enabled(enabled);
+    return enabled;
+}
+void tlc59711_set_enabled(bool enabled) {
+    ledEnabled = enabled;
+    if (!enabled) {
+        memset(ledStateRaw, 0, TLC59711_NUM_DRIVERS*12);
+        tlc59711_write(ledStateRaw);
+    }
 }
