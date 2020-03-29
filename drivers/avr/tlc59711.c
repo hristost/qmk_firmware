@@ -101,7 +101,7 @@ void tlc59711_write(uint8_t* data) {
     command <<= 7;
     command |= 0x7F;
 
-    cli();
+    /* cli(); */
     digitalWrite(B7, PinLevelHigh);
     for (uint8_t n=0; n<3; n++) {
         SPI_SendByte(command >> 24);
@@ -117,7 +117,7 @@ void tlc59711_write(uint8_t* data) {
         }
     }
     digitalWrite(B7, PinLevelLow);
-    sei();
+    /* sei(); */
 }
 uint8_t colour = 0;
 void updateLEDMatrix(matrix_row_t* matrix) {
@@ -167,7 +167,7 @@ bool tlc59711_process_matrix(uint16_t keycode, keyrecord_t *record) {
 
 /// Whether backlight is enabled
 bool tlc59711_is_enabled() {
-    return ledEnabled;
+    return ledEnabled ? 1 : 0;
 }
 
 bool tlc59711_toggle_enabled() {
@@ -176,9 +176,11 @@ bool tlc59711_toggle_enabled() {
     return enabled;
 }
 void tlc59711_set_enabled(bool enabled) {
-    ledEnabled = enabled;
-    if (!enabled) {
-        memset(ledStateRaw, 0, TLC59711_NUM_DRIVERS*12);
-        tlc59711_write(ledStateRaw);
+    if (ledEnabled != enabled) {
+        ledEnabled = enabled;
+        if (!enabled) {
+            memset(ledStateRaw, 0, TLC59711_NUM_DRIVERS*12);
+            tlc59711_write(ledStateRaw);
+        }
     }
 }

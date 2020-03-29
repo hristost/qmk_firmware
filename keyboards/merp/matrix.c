@@ -204,7 +204,7 @@ int i2c_transaction(void) {
     }
 
     // start of matrix stored at 0x00
-    err = i2c_master_write(0x00);
+    err = i2c_master_write(tlc59711_is_enabled() ? 1 : 0 || 0x00);
     if (err) {
         uprint("i2cerr master write\n");
         goto i2c_error;
@@ -282,7 +282,8 @@ uint8_t matrix_scan(void)
 
 void matrix_slave_scan(void) {
     int offset = (isLeftHand) ? 0 : ROWS_PER_HAND;
-    /* tlc59711_task(matrix); */
+    tlc59711_task(matrix);
+    tlc59711_set_enabled(i2c_shared_state ? 1 : 0);
     _matrix_scan();
 
 

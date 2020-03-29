@@ -18,6 +18,14 @@
 // i2c SCL clock frequency
 #define SCL_CLOCK  400000L
 
+/// State shared by all parts of the keyboard
+///
+/// Set by master and propagated to slaves
+//
+/// Layout:
+/// - bits 7-6: backlight mode
+volatile uint8_t i2c_shared_state;
+
 extern volatile uint8_t i2c_slave_buffer[SLAVE_BUFFER_SIZE];
 
 void i2c_master_init(void);

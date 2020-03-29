@@ -118,19 +118,30 @@ ISR(TWI_vect);
 ISR(TWI_vect) {
   uint8_t ack = 1;
   switch(TW_STATUS) {
+    // SR: Slave receiver
+    // ST: Slave transmitter
     case TW_SR_SLA_ACK:
+      // master: I want to write to slave
+      /* SLA+W received, ACK returned */
       // this device has been addressed as a slave receiver
       slave_has_register_set = false;
       break;
 
     case TW_SR_DATA_ACK:
+      /* data received, ACK returned */
+
       // this device has received data as a slave receiver
       // The first byte that we receive in this transaction sets the location
       // of the read/write location of the slaves memory that it exposes over
       // i2c.  After that, bytes will be written at slave_buffer_pos, incrementing
       // slave_buffer_pos after each write.
       if(!slave_has_register_set) {
-        slave_buffer_pos = TWDR;
+        /// Bit 7, 6: backlight mode
+        /// Bits 5-0: slave_buffer_pos;
+        static uint8_t recv = 0;
+        recv = TWDR;
+        slave_buffer_pos = 0;//recv & 0x3f;
+        i2c_shared_state = recv;// & 0xc0;
         // don't acknowledge the master if this memory loctaion is out of bounds
         if ( slave_buffer_pos >= SLAVE_BUFFER_SIZE ) {
           ack = 0;
@@ -144,7 +155,12 @@ ISR(TWI_vect) {
       break;
 
     case TW_ST_SLA_ACK:
+      /* SLA+R received, ACK returned */
+      // master: I want to read from slave
     case TW_ST_DATA_ACK:
+      /* data transmitted, ACK received */
+      // slave: data sent, change TWDR to next bit of buffer
+      //
       // master has addressed this device as a slave transmitter and is
       // requesting data.
       TWDR = i2c_slave_buffer[slave_buffer_pos];

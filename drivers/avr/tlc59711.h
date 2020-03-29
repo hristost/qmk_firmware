@@ -27,6 +27,7 @@
 #include "quantum.h"
 #include <stdbool.h>
 
+#define LIGHT_MODE_ENABLED   0x80
 
 /// Initialize the SPI interface needed for the LED driver
 void tlc59711_init(void);
