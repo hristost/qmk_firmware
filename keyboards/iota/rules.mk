@@ -4,6 +4,7 @@
 #
 ARCH = AVR8
 DEFAULT_FOLDER = iota/avr
+BOOTLOADER = caterina
 BOOTMAGIC_ENABLE ?= no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE ?= no        # Mouse keys(+4700)
 EXTRAKEY_ENABLE ?= yes       # Audio control and System control(+450)
@@ -17,5 +18,6 @@ BACKLIGHT_ENABLE ?= no       # Enable keyboard backlight functionality on B7 by 
 MIDI_ENABLE ?= no            # MIDI controls
 UNICODE_ENABLE ?= no         # Unicode
 ADAFRUIT_BLE_ENABLE ?= yes   # Enable Bluetooth with the Adafruit BLE boards
+#BLUETOOTH = AdafruitBLE
 AUDIO_ENABLE ?= no           # Audio output on port C6
 CUSTOM_MATRIX = yes          # We have a custom matrix
