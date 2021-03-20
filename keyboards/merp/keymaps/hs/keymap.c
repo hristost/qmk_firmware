@@ -5,6 +5,9 @@
 #define A(x) LALT(x)
 #define WW(x) LALT(LSFT(x))
 
+// Momentary toggle to QWERTY with Ctrl + Alt + Shift (`Meh` modifier in skhd)
+#define MEH_QWRT LM(_QWERTY, MOD_LCTL | MOD_LALT | MOD_LSFT)
+
 extern keymap_config_t keymap_config;
 
 enum preonic_layers {
@@ -12,7 +15,6 @@ enum preonic_layers {
   _QWERTY,
   _COLEMAK,
   _LOWER,
-  _WINDOW,
   _RAISE,
   _ADJUST
 };
@@ -22,7 +24,6 @@ enum preonic_keycodes {
   QWERTY,
   COLEMAK,
   LOWER,
-  WINDOW,
   RAISE,
   BACKLIT
 };
@@ -47,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT,  \
   KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,  \
-  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT   \
+  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  LOWER,   RAISE,   KC_SPC,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT   \
 ),
 
 /* Colemak
@@ -75,22 +76,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.   ,-----------------------------------------.
  * |   `  |   1  |   2  |   3  |   4  |   5  |   |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Tab  |   "  |   ,  |   .  |   P  |   Y  |   |   F  |   G  |   C  |   R  |   L  |  /   |
+ * | Tab  |   "  |   ,  |   .  |   P  |   Y  |   |   F  |   G  |   C  |   R  |   L  |   /  |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Esc  |   A  |   O  |   E  |   U  |   I  |   |   D  |   H  |   T  |   N  |   S  | Enter|
+ * | Esc  |   A  |   O  |   E  |   U  |   I  |   |   D  |   H  |   T  |   N  |   S  |   =  |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
  * | Shift|   ;  |   Q  |   J  |   K  |   X  |   |   B  |   M  |   W  |   V  |   Z  | Shift|
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  | Esc  | Tab  |   | Enter| Space| Left | Down |  Up  |Raise |
+ * | Fn   | Ctrl | Alt  | GUI  | Esc  | Tab  |   | Enter|      |   \  | Down |  Up  |Raise |
  * `-----------------------------------------'   `-----------------------------------------'
- *                               Ctrl   Lower             Shift                             
+ *                               Ctrl   Lower      Raise
  */
 [_DVORAK] = LAYOUT( \
-  KC_GRV,        KC_1,    KC_2,    KC_3,    KC_4,          KC_5,               KC_6,                 KC_7,             KC_8,    KC_9,    KC_0,  KC_BSPC, \
-  KC_TAB,        KC_QUOT, KC_COMM, KC_DOT,  KC_P,          KC_Y,               KC_F,                 KC_G,             KC_C,    KC_R,    KC_L,  KC_SLSH, \
-  CTL_T(KC_ESC), KC_A,    KC_O,    KC_E,    KC_U,          KC_I,               KC_D,                 KC_H,             KC_T,    KC_N,    KC_S,  KC_ENT,  \
-  KC_LSFT,       KC_SCLN, KC_Q,    KC_J,    KC_K,          KC_X,               KC_B,                 KC_M,             KC_W,    KC_V,    KC_Z,  KC_RSFT, \
-  MO(_WINDOW),   KC_LCTL, KC_LALT, KC_LGUI, CTL_T(KC_ESC), LT(_LOWER, KC_TAB), LT(_RAISE, KC_ENTER), SFT_T(KC_SPC),    KC_NUHS, KC_DOWN, KC_RGUI, RAISE    \
+  KC_GRV,        KC_1,    KC_2,    KC_3,    KC_4,          KC_5,               KC_6,                 KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
+  KC_TAB,        KC_QUOT, KC_COMM, KC_DOT,  KC_P,          KC_Y,               KC_F,                 KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH, \
+  CTL_T(KC_ESC), KC_A,    KC_O,    KC_E,    KC_U,          KC_I,               KC_D,                 KC_H,    KC_T,    KC_N,    KC_S,    KC_EQL,  \
+  KC_LSFT,       KC_SCLN, KC_Q,    KC_J,    KC_K,          KC_X,               KC_B,                 KC_M,    KC_W,    KC_V,    KC_Z,    KC_MINS, \
+  KC_F19,        KC_LCTL, KC_LALT, KC_LGUI, CTL_T(KC_ESC), OSL(_LOWER),        LT(_RAISE, KC_ENTER), KC_SPC,  KC_NUHS, KC_DOWN, KC_RGUI, MEH_QWRT \
 ),
 
 /* Lower
@@ -107,39 +108,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT( \
-  _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  \
-  _______, KC_AMPR, KC_BSLS, KC_LPRN, KC_RPRN, KC_CIRC, _______, _______, _______, _______, _______, _______, \
+  DVORAK,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  \
+  QWERTY,  KC_AMPR, KC_BSLS, KC_LPRN, KC_RPRN, KC_CIRC, _______, _______, _______, _______, _______, _______, \
   BACKLIT, KC_UNDS, KC_EQL,  KC_LBRC, KC_RBRC, KC_F6,   _______, _______, _______, _______, _______, _______, \
   _______, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, KC_F12,  _______, _______, _______, _______, _______, _______, \
-  RESET,   _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
-),
-[_WINDOW] = LAYOUT( \
-  _______, WW(KC_1), WW(KC_2), WW(KC_3), WW(KC_4), WW(KC_5), WW(KC_6),    WW(KC_7),   WW(KC_8), WW(KC_9),    WW(KC_0),   _______,    \
-  _______, WW(KC_Q), WW(KC_W), WW(KC_E), WW(KC_R), WW(KC_T), WW(KC_LBRC), WW(KC_Y),   WW(KC_U), WW(KC_I),    WW(KC_O),   WW(KC_P),    \
-  _______, WW(KC_A), WW(KC_S), WW(KC_D), WW(KC_F), WW(KC_G), WW(KC_RBRC), WW(KC_H),   WW(KC_J), WW(KC_K),    WW(KC_L),   WW(KC_ENT),  \
-  _______, WW(KC_Z), WW(KC_X), WW(KC_C), WW(KC_V), WW(KC_B), WW(KC_SCLN), WW(KC_N),   WW(KC_M), WW(KC_COMM), WW(KC_DOT), WW(KC_SLSH), \
-  _______, _______,  _______,  _______,  _______,  _______,  KC_LCTL,     WW(KC_SPC), _______,  _______,     _______,    _______  \
+  RESET,   OUT_USB, OUT_BT, OUT_AUTO, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
 ),
 
 /* Raise
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Del  |
+ * |      |      |      |      |      |      |      | Play | Vol- | Vol+ |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |      | Left | Down |  Up  | Right|      |
+ * |      |      |      |      |      |      |      | Left | Down |  Up  | Right|      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |      |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT( \
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, _______  \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_VOLD, KC_VOLU, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______, \
+  RESET,   _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
 ),
 
 /* Adjust (Lower + Raise)

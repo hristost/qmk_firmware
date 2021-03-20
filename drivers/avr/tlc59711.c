@@ -41,7 +41,7 @@ void updateLEDMatrix(matrix_row_t* matrix);
 #define TLC59711_NUM_COLUMNS 6
 #define TLC59711_NUM_ROWS    5
 
-bool ledEnabled = 1;
+bool ledEnabled = 0;
 uint8_t ledState[TLC59711_NUM_ROWS][TLC59711_NUM_COLUMNS];
 uint8_t ledStateOld[TLC59711_NUM_ROWS][TLC59711_NUM_COLUMNS];
 uint8_t ledStateRaw[TLC59711_NUM_DRIVERS*12];
