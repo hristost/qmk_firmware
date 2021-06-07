@@ -3,7 +3,7 @@
 #   change yes to no to disable
 #
 ARCH = AVR8
-DEFAULT_FOLDER = iota/avr
+DEFAULT_FOLDER = clicky/avr
 BOOTLOADER = caterina
 BOOTMAGIC_ENABLE ?= no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE ?= no        # Mouse keys(+4700)
@@ -17,7 +17,7 @@ NKRO_ENABLE ?= no            # USB Nkey Rollover
 BACKLIGHT_ENABLE ?= no       # Enable keyboard backlight functionality on B7 by default
 MIDI_ENABLE ?= no            # MIDI controls
 UNICODE_ENABLE ?= no         # Unicode
-ADAFRUIT_BLE_ENABLE ?= yes   # Enable Bluetooth with the Adafruit BLE boards
-#BLUETOOTH = AdafruitBLE
+#ADAFRUIT_BLE_ENABLE ?= yes   # Enable Bluetooth with the Adafruit BLE boards
+BLUETOOTH = AdafruitBLE
 AUDIO_ENABLE ?= no           # Audio output on port C6
 CUSTOM_MATRIX = yes          # We have a custom matrix

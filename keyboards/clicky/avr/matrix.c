@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdbool.h>
 
 #include "debug.h"
-#include "iota.h"
+#include "clicky.h"
 #include "config.h"
 #include "tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/Peripheral/TWI.h"
 #include "matrix.h"
